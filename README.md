@@ -1,6 +1,6 @@
 # Ingesta - Media Importer
 
-Version 0.2.0 — cross-platform Workflow Integration script for DaVinci
+Version 0.2.1 — cross-platform Workflow Integration script for DaVinci
 Resolve Studio 21 (macOS + Windows).
 
 This directory is the source of truth. A mirror also lives at
@@ -9,8 +9,8 @@ This directory is the source of truth. A mirror also lives at
 ## Features
 
 - Select individual media files, folders, or a mixed queue
-- File/folder pickers: tkinter → OS fallback (AppleScript / PowerShell) →
-  Resolve `fusion` dialogs → **Use pasted paths**
+- File/folder pickers: Resolve native dialog → OS fallback (AppleScript /
+  PowerShell) → **Use pasted paths** (tkinter is avoided inside Resolve)
 - Folder import modes:
   - **Ignore subfolders** — top-level files only, into the selected bin
   - **Replicate folder structure** — mirror nested folders as Media Pool bins
@@ -117,9 +117,8 @@ Run this checklist on both platforms before release:
 
 ### Media queue / pickers
 
-- [ ] File picker (tkinter) works, or falls back cleanly
-- [ ] File picker OS fallback works if tkinter is forced to fail
-- [ ] Resolve fusion dialog works if earlier pickers fail
+- [ ] File picker (Resolve native) works, or falls back cleanly
+- [ ] File picker OS fallback works if Resolve dialog is unavailable
 - [ ] **Use pasted paths** validates and queues pasted absolute paths
 - [ ] Multiple files can be selected
 - [ ] A folder can be selected
@@ -161,7 +160,7 @@ current plugin run; the plugin does not create log files.
 Picker backends are logged as:
 
 ```text
-Ingesta: [INFO] File picker backend=tk|macos|windows|fusion
+Ingesta: [INFO] File picker backend=fusion|macos|windows
 ```
 
 ## Troubleshooting
@@ -202,4 +201,4 @@ metadata are passed only to the local Resolve project.
 them. The plugin does not phone home. Any data collected after that is governed
 by the destination website (for example a donation host), not by Ingesta.
 
-No App Store / Play Store privacy declarations are required for version 0.2.0.
+No App Store / Play Store privacy declarations are required for version 0.2.1.

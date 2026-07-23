@@ -8,7 +8,7 @@ import traceback
 import webbrowser
 from pathlib import Path
 
-PLUGIN_VERSION = "0.2.0"
+PLUGIN_VERSION = "0.2.1"
 WINDOW_ID = "com.dangoetz.resolve.ingesta_media_importer"
 BIN_TREE_ID = "BinTree"
 STATUS_LABEL_ID = "StatusLabel"
@@ -508,19 +508,16 @@ else:
         return normalize_path(selected)
 
     def pick_files():
+        # Prefer Resolve's native dialog. Avoid tkinter inside Resolve: it often
+        # opens a broken fuscript window instead of failing cleanly.
         errors = []
-        for backend, picker in (
-            ("tk", pick_files_tk),
-            (
-                "macos" if sys.platform == "darwin" else "windows",
-                pick_files_macos if sys.platform == "darwin" else pick_files_windows,
-            ),
-            ("fusion", pick_files_fusion),
-        ):
-            if backend == "windows" and sys.platform != "win32":
-                continue
-            if backend == "macos" and sys.platform != "darwin":
-                continue
+        backends = [("fusion", pick_files_fusion)]
+        if sys.platform == "darwin":
+            backends.append(("macos", pick_files_macos))
+        elif sys.platform == "win32":
+            backends.append(("windows", pick_files_windows))
+
+        for backend, picker in backends:
             try:
                 paths = picker()
                 log_message("INFO", "File picker backend=" + backend)
@@ -534,19 +531,16 @@ else:
         )
 
     def pick_folder():
+        # Prefer Resolve's native dialog. Avoid tkinter inside Resolve: it often
+        # opens a broken fuscript window instead of failing cleanly.
         errors = []
-        for backend, picker in (
-            ("tk", pick_folder_tk),
-            (
-                "macos" if sys.platform == "darwin" else "windows",
-                pick_folder_macos if sys.platform == "darwin" else pick_folder_windows,
-            ),
-            ("fusion", pick_folder_fusion),
-        ):
-            if backend == "windows" and sys.platform != "win32":
-                continue
-            if backend == "macos" and sys.platform != "darwin":
-                continue
+        backends = [("fusion", pick_folder_fusion)]
+        if sys.platform == "darwin":
+            backends.append(("macos", pick_folder_macos))
+        elif sys.platform == "win32":
+            backends.append(("windows", pick_folder_windows))
+
+        for backend, picker in backends:
             try:
                 path = picker()
                 log_message("INFO", "Folder picker backend=" + backend)
