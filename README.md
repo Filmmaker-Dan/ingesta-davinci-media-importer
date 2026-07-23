@@ -3,8 +3,6 @@
 Version 0.2.1 — cross-platform Workflow Integration script for DaVinci
 Resolve Studio 21 (macOS + Windows).
 
-This directory is the source of truth. A mirror also lives at
-`~/Projects/resolve-media-importer`.
 
 ## Features
 
@@ -89,79 +87,6 @@ plugin reliably).
 If you prefer not to use the installer, copy `Ingesta - Media Importer.py` into
 the OS destination above, then fully restart Resolve.
 
-## Branding URLs
-
-Edit these constants near the top of `Ingesta - Media Importer.py`:
-
-- `WEBSITE_URL`
-- `DONATE_URL`
-
-## Full regression checklist (macOS + Windows)
-
-Run this checklist on both platforms before release:
-
-### Install / launch
-
-- [ ] Fresh Resolve restart → plugin loads
-- [ ] Installer places the script in the correct OS folder
-- [ ] Plugin appears as **Ingesta - Media Importer**
-- [ ] Window opens, closes, and reopens (single-instance)
-- [ ] No-project state shows a friendly message
-
-### Bins
-
-- [ ] Existing and nested bins load
-- [ ] Refresh preserves the selected bin
-- [ ] New and nested bins can be created
-- [ ] Blank and duplicate bin names are rejected
-
-### Media queue / pickers
-
-- [ ] File picker (Resolve native) works, or falls back cleanly
-- [ ] File picker OS fallback works if Resolve dialog is unavailable
-- [ ] **Use pasted paths** validates and queues pasted absolute paths
-- [ ] Multiple files can be selected
-- [ ] A folder can be selected
-- [ ] Files and folders can share one queue
-- [ ] Duplicate queued paths are ignored
-- [ ] Paths containing spaces and non-ASCII characters work
-- [ ] Missing paths are rejected before import
-
-### Import / metadata
-
-- [ ] Media imports into the selected bin
-- [ ] **Ignore subfolders** imports only top-level files into the selected bin
-- [ ] **Replicate folder structure** creates matching nested bins
-- [ ] **Flatten all media** imports nested files into the selected bin without nested bins
-- [ ] Resolve stays on the active page
-- [ ] Clip colour dropdown uses Resolve's colour order
-- [ ] All 16 clip colours work
-- [ ] **None** leaves the default clip colour
-- [ ] Scene and Description appear in Resolve's Metadata panel
-- [ ] Empty Scene/Description fields leave existing clip values untouched
-- [ ] Keywords are visible in Resolve's Metadata panel
-- [ ] Duplicate Keywords are removed case-insensitively
-- [ ] Metadata is applied to every clip in a batch
-- [ ] Changing projects refreshes bins before import
-- [ ] A second import works without reopening the plugin
-- [ ] Import button disables while an import is running
-
-### Branding
-
-- [ ] **Website** opens the configured site in the system browser
-- [ ] **Donate** opens the configured donation page in the system browser
-
-## Diagnostics
-
-Normal status messages and full error tracebacks are printed to Resolve's
-Fusion Console with an `Ingesta:` prefix. Diagnostics remain in memory for the
-current plugin run; the plugin does not create log files.
-
-Picker backends are logged as:
-
-```text
-Ingesta: [INFO] File picker backend=fusion|macos|windows
-```
 
 ## Troubleshooting
 
