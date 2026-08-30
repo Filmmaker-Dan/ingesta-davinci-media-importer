@@ -1,10 +1,9 @@
 # Ingesta - Media Importer
 
-Version 0.2.1 — cross-platform Workflow Integration script for DaVinci
+Version 0.2.2 — cross-platform Workflow Integration script for DaVinci
 Resolve Studio 21 (macOS + Windows).
 
-This directory is the source of truth. A mirror also lives at
-`~/Projects/resolve-media-importer`.
+Source repository: `ingesta-davinci-media-importer` on GitHub.
 
 ## Features
 
@@ -201,4 +200,16 @@ metadata are passed only to the local Resolve project.
 them. The plugin does not phone home. Any data collected after that is governed
 by the destination website (for example a donation host), not by Ingesta.
 
-No App Store / Play Store privacy declarations are required for version 0.2.1.
+No App Store / Play Store privacy declarations are required for version 0.2.2.
+
+## License
+
+Ingesta is free software licensed under the **GNU General Public License v3.0 or
+later** (GPL-3.0-or-later).
+
+- You may use, modify, and redistribute this project under the terms of GPL-3.0.
+- If you distribute a modified version, you must also provide source code under
+  the same license.
+- See [LICENSE](LICENSE) for the full license text.
+
+Copyright (C) 2026 Filmmaker-Dan

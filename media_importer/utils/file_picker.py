@@ -1,4 +1,8 @@
-"""Public file/folder picker API with tkinter primary and OS fallbacks."""
+"""Public file/folder picker API with OS-native primary and tkinter last resort.
+
+Inside DaVinci Resolve, prefer fusion.RequestFile / RequestDir instead of this
+module. Tkinter often opens a broken fuscript window when hosted by Resolve.
+"""
 
 from __future__ import annotations
 
@@ -9,36 +13,40 @@ from media_importer.utils.paths import normalize_path
 
 
 def pick_files() -> list[str]:
-    backend = "tk"
-    try:
-        paths = _picker_tk.pick_files()
-    except Exception:
-        if sys.platform == "darwin":
-            backend = "macos"
-            paths = _picker_macos.pick_files()
-        elif sys.platform == "win32":
-            backend = "windows"
-            paths = _picker_windows.pick_files()
-        else:
-            raise
-    print("Ingesta: file picker backend=" + backend)
-    return [normalize_path(path) for path in paths if path]
+    errors = []
+    backends = []
+    if sys.platform == "darwin":
+        backends.append(("macos", _picker_macos.pick_files))
+    elif sys.platform == "win32":
+        backends.append(("windows", _picker_windows.pick_files))
+    backends.append(("tk", _picker_tk.pick_files))
+
+    for backend, picker in backends:
+        try:
+            paths = picker()
+            print("Ingesta: file picker backend=" + backend)
+            return [normalize_path(path) for path in paths if path]
+        except Exception as error:
+            errors.append(backend + ": " + str(error))
+    raise RuntimeError("All file pickers failed: " + " | ".join(errors))
 
 
 def pick_folder() -> str | None:
-    backend = "tk"
-    try:
-        path = _picker_tk.pick_folder()
-    except Exception:
-        if sys.platform == "darwin":
-            backend = "macos"
-            path = _picker_macos.pick_folder()
-        elif sys.platform == "win32":
-            backend = "windows"
-            path = _picker_windows.pick_folder()
-        else:
-            raise
-    print("Ingesta: folder picker backend=" + backend)
-    if not path:
-        return None
-    return normalize_path(path)
+    errors = []
+    backends = []
+    if sys.platform == "darwin":
+        backends.append(("macos", _picker_macos.pick_folder))
+    elif sys.platform == "win32":
+        backends.append(("windows", _picker_windows.pick_folder))
+    backends.append(("tk", _picker_tk.pick_folder))
+
+    for backend, picker in backends:
+        try:
+            path = picker()
+            print("Ingesta: folder picker backend=" + backend)
+            if not path:
+                return None
+            return normalize_path(path)
+        except Exception as error:
+            errors.append(backend + ": " + str(error))
+    raise RuntimeError("All folder pickers failed: " + " | ".join(errors))

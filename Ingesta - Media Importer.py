@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Filmmaker-Dan
 """Ingesta - Media Importer for DaVinci Resolve."""
 
 import ast
@@ -8,7 +10,7 @@ import traceback
 import webbrowser
 from pathlib import Path
 
-PLUGIN_VERSION = "0.2.1"
+PLUGIN_VERSION = "0.2.2"
 WINDOW_ID = "com.dangoetz.resolve.ingesta_media_importer"
 BIN_TREE_ID = "BinTree"
 STATUS_LABEL_ID = "StatusLabel"
